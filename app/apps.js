@@ -40,48 +40,11 @@ import backAndroid, {
   hardwareBackPress,
   exitApp
 } from 'react-native-back-android'
-import { Container, Content,List, ListItem } from 'native-base';
+import { Container, Content, List, ListItem } from "native-base";
+import { DrawerNavigator } from "react-navigation";
 
-class HomeScreen extends React.Component {
-	static navigationOptions={
-		title: 'Welcome',
-		headerStyle:{ 
-			backgroundColor: '#2980b9',
-			justifyContent: 'center',
-		},
-		headerTitleStyle:{ 
-			fontSize: 25,
-			fontWeight: 'bold',
-			textAlign: 'center',
-			alignSelf:'center',
-			color:'#ecf0f1'
-		},
-	};
-	render(){
-		const { navigate } = this.props.navigation;
-		return(
-			<View style={styles.container}>
-				<View style={styles.imagecontainer}>
-					<Image
-						style={styles.logo}
-						source ={require('../src/Image/bakery.png')}
-					/>			
-					<Text style={styles.subtitle}>Welcome to our Mobile Payrol System</Text>
-				</View>
-				<View style={styles.buttoncontainer}>
-					<TouchableOpacity style={styles.buttonlogin}
-						onPress={()=> this.props.navigation.navigate('Login', { user: 'Lucy'})}>
-						<Text style={styles.buttontext}>Login</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={styles.buttonregister}
-						onPress={()=> this.props.navigation.navigate('Register', { user: 'Lucy'})}>
-						<Text style={styles.buttontext}>Register</Text>
-					</TouchableOpacity>
-				</View>
-			</View>
-		);
-	}	
-}
+import HomeScreen from "../app/home";
+const routes =["Home","Chat","Profile"];
 
 class LoginScreen extends React.Component{
 	static navigationOptions=({ navigation }) => ({
@@ -128,7 +91,7 @@ class LoginScreen extends React.Component{
 					</KeyboardAvoidingView>			
 				<View style={styles.buttoncontainer}>
 					<TouchableOpacity style={styles.buttonlogin}
-						onPress={()=> this.props.navigation.navigate('Login', { user: 'Lucy'})}>
+						onPress={()=> this.props.navigation.navigate('MainMenu', { user: 'Lucy'})}>
 						<Text style={styles.buttontext}>Login</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.buttonregister}
@@ -251,10 +214,55 @@ class RegisterScreen extends React.Component{
 	}	
 }
 
+
+
+class MainMenuScreen extends React.Component{
+		render(){
+			return(
+				<Container>
+					<Content>
+						<Image
+							source={{
+								uri:"https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/drawer-cover.png"
+							}}
+							style={{
+								height: 120,
+								//alignSelf: 'strech',
+								flex: 0,
+								justifyContent: "center",
+								alignItems: "center"
+							}}>
+						<Image
+							square
+							style={{ height: 80, width: 70 }}
+							source={{
+								uri: "https://github.com/GeekyAnts/NativeBase-KitchenSink/raw/react-navigation/img/logo.png"
+							}}
+						/>
+						</Image>
+						<List
+							dataArray={routes}
+							renderRow={data => {
+								return(
+									<ListItem
+										button
+										onPress={() => this.props.navigation.navigate(data)}>
+										<Text>{data}</Text>
+									</ListItem>
+								);
+							}}
+						/>
+					</Content>
+				</Container>
+			);
+		}
+		
+}
 const SimpleApp = StackNavigator({
 	Home:  { screen: HomeScreen },
 	Login: { screen: LoginScreen },
 	Register: { screen: RegisterScreen },
+	MainMenu: { screen: MainMenuScreen },
 });
 
 const styles=StyleSheet.create({
