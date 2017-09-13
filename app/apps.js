@@ -35,7 +35,6 @@ import {
 
 import { 
 	StackNavigator,
-	TabNavigator 
 } from 'react-navigation';
 import backAndroid, {
   hardwareBackPress,
@@ -161,47 +160,97 @@ class LoginScreen extends React.Component{
 class RegisterScreen extends React.Component{
 	static navigationOptions=({ navigation }) => ({
 		//title: `Login as ${navigation.state.params.user}`,
-		tabBarLabel:'Register',
-		tabBarIcon: ({ tinColor })=>(
-		<Image
-        source={require('../src/Image/chats.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
+		title:'Register',
+		headerStyle:{ 
+			backgroundColor: '#2980b9',
+			justifyContent: 'center',
+		},	
+		headerTitleStyle:{ 
+			fontSize: 25,
+			fontWeight: 'bold',
+			textAlign: 'center',
+			alignSelf:'center',
+			color:'#ecf0f1'
+		},		
 	});	
 	render(){
 		const { navigate } = this.props.navigation;
 		return(
 			<View style={styles.container}>
-				<Button
-					onPress={() => this.props.navigation.navigate('Notifications')}
-					title="Go to notifications"
-				/>
+				<View style={styles.imagecontainerregister}>
+					<Image
+						style={styles.logoregister}
+						source ={require('../src/Image/bakery.png')}
+					/>			
+					<Text style={styles.subtitle}>Welcome to our Mobile Payrol System</Text>
+				</View>
+				<KeyboardAvoidingView behavior="padding" style={styles.container}>
+					<TextInput 
+						placeholder="Username or Email"
+						returnKeyType="next"
+						style={styles.input}
+						onSubmitEditing={() => this.passwordInput.focus()}
+						keyboardType="email-address"
+					/>
+					<TextInput 
+						placeholder="Full Name"
+						returnKeyType="next"
+						style={styles.input}
+						onSubmitEditing={() => this.passwordInput.focus()}
+						keyboardType="default"
+					/>
+										
+					<TextInput 
+						placeholder="Password"
+						returnKeyType="go"
+						secureTextEntry={true}
+						style={styles.input}
+						ref={(input)=> this.passwordInput=input}
+					/>	
+					<TextInput 
+						placeholder="Confirm-Password"
+						returnKeyType="go"
+						secureTextEntry={true}
+						style={styles.input}
+						ref={(input)=> this.passwordInput=input}
+					/>	
+				</KeyboardAvoidingView>	
+				<View style={styles.buttoncontainer}>
+				
+					<TouchableOpacity style={styles.buttonlogin}
+				
+						onPress={()=> this.props.navigation.navigate('Login', { user: 'Lucy'})}>
+						<Text style={styles.buttontext}>Register</Text>
+						
+					</TouchableOpacity>
+					
+					<TouchableOpacity style={styles.buttonregisterinfo}
+						  onPress ={() => {
+							const { goBack } = this.props.navigation
+							Alert.alert(
+							  'Going Back',
+							  'Want to go back?',
+							  [
+								{
+								  text: 'Cancel',
+								  onPress: () => console.log('Cancel Pressed'),
+								  style: 'cancel'
+								},
+								{ text: 'OK', onPress: () => exitApp() }
+							  ],
+							  { cancelable: false }
+							);
+							// return true to stop bubbling
+							return true
+						  }}>
+						<Text style={styles.buttontext}>Exit</Text>
+					</TouchableOpacity>
+				</View>	
 			</View>
 		);
 	}	
 }
 
-class MyNotificationsScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel: 'Notifications',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../src/Image/chats.png')}
-        style={[styles.icon, {tintColor: tintColor}]}
-      />
-    ),
-  };
-
-  render() {
-    return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="Go back home"
-      />
-    );
-  }
-}
 const SimpleApp = StackNavigator({
 	Home:  { screen: HomeScreen },
 	Login: { screen: LoginScreen },
@@ -236,6 +285,12 @@ const styles=StyleSheet.create({
 		marginLeft:10,
 		marginRight:10,
 	},
+	buttonregisterinfo:{
+		backgroundColor: '#2980b9',
+		height: 80,
+		marginLeft:10,
+		marginRight:10,		
+	},
 	buttontext:{
 		fontSize:25,
 		fontWeight: 'bold',
@@ -250,9 +305,17 @@ const styles=StyleSheet.create({
 		justifyContent: 'center',
 		flexGrow: 1,		
 	},
+	imagecontainerregister:{
+		alignItems: 'center',
+		justifyContent: 'center',	
+	},
 	logo:{
 		width: 150,
 		height: 150,
+	},
+	logoregister:{
+		width: 150,
+		height: 150,		
 	},
 	input:{
 		height: 50,
@@ -268,18 +331,4 @@ const styles=StyleSheet.create({
 	  },
 });
 
-const MyApp = TabNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  Notifications: {
-    screen: MyNotificationsScreen,
-  },
-}, {
-  tabBarPosition: 'top',
-  animationEnabled: true,
-  tabBarOptions: {
-    activeTintColor: '#e91e63',
-  },
-});
 AppRegistry.registerComponent('PayrollApp', () => SimpleApp);
