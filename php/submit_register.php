@@ -1,4 +1,4 @@
-<?php require_once("../includes/functions/db_connections.php");?>
+<?php require_once("../php/db_connections.php");?>
 <?php
 	$json_ = file_get_contents('php://input');
 	$obj_  = json_decode($json_, true);
