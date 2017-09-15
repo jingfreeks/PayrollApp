@@ -16,9 +16,9 @@
 	
 	if(mysqli_query($connect_, $query)){
 		$msg_= 'Data Inserted Successfully into the Database';
-		$json_ = json_encode($msg_);
+		$json = json_encode($msg_);
 		
-		echo $json_;
+		echo $json;
 	}else{
 		echo 'Try Again';
 	}
