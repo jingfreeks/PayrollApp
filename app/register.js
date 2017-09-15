@@ -23,7 +23,7 @@ import backAndroid, {
 import { Container, Content, List, ListItem } from "native-base";
 import { DrawerNavigator } from "react-navigation";
 
-var myRequest = new Request('http://localhost/widjet_cms/public/admin.php',{method: 'POST'});
+/*var myRequest = new Request('https://github.com/ravendell/PayrollApp/blob/master/php/db_connections.php',{method: 'POST'});
 var myUrl =  myRequest.url;
 var myMethod = myRequest.method;
 var myCred = myRequest.credentials
@@ -39,7 +39,7 @@ fetch(myRequest)
     })
     .catch(function(error) {
         console.error(error);
-    });
+    });*/
 	
 class RegisterScreen extends React.Component{
 		
@@ -59,7 +59,7 @@ class RegisterScreen extends React.Component{
 		},		
 	});	
 	
-	/*constructor(props){
+	constructor(props){
 		super(props)
 		
 		this.state = {
@@ -78,7 +78,7 @@ class RegisterScreen extends React.Component{
 		const{ TextInputPassword } = this.state;
 		const{ TextInputPassword1 } = this.state;
 		
-		fetch(myUrl, {
+		fetch('https://github.com/ravendell/PayrollApp/blob/master/php/db_connections.php', {
 			   
 			method: 'POST',
 			headers: {
@@ -91,13 +91,13 @@ class RegisterScreen extends React.Component{
 				password_: TextInputPassword,
 				password1_: TextInputPassword1
 			})
-		}).then((response) => console.text())
+		}).then((response) => response.json())
 			.then((responseJson) => {
 				Alert.alert(responseJson);		
 			}).catch((error) => {
 				console.error(error);	
 			});
-	}*/
+	}
 	
 	render(){
 		const { navigate } = this.props.navigation;
