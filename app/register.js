@@ -44,7 +44,7 @@ class RegisterScreen extends React.Component{
 		const{ TextInputPassword } = this.state;
 		const{ TextInputPassword1 } = this.state;
 		
-		fetch('./php/submit_register.php', {
+		fetch('https://github.com/ravendell/PayrollApp/blob/master/php/submit_register.php', {
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
@@ -56,10 +56,10 @@ class RegisterScreen extends React.Component{
 				password_: TextInputPassword,
 				password1_: TextInputPassword1
 			})
-		}).then((response)=> response.json())
-			.then((responseJson)=> {
+		}).then((response) => response.text())
+			.then((responseJson) => {
 				Alert.alert(responseJson);		
-			}).catch((error)=>{
+			}).catch((error) => {
 				console.error(error);	
 			});
 	}
