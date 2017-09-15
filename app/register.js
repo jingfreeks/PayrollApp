@@ -23,9 +23,43 @@ import backAndroid, {
 import { Container, Content, List, ListItem } from "native-base";
 import { DrawerNavigator } from "react-navigation";
 
-class RegisterScreen extends React.Component{
+var myRequest = new Request('http://localhost/widjet_cms/public/admin.php',{method: 'POST'});
+var myUrl =  myRequest.url;
+var myMethod = myRequest.method;
+var myCred = myRequest.credentials
+
+fetch(myRequest)
+    .then(function(response) {
+        if(response.status == 200) return response.json();
+        else throw new Error('Something went wrong on api server!');
+    })
+    .then(function(response) {
+        console.debug(response);
+        // ...
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
 	
-	constructor(props){
+class RegisterScreen extends React.Component{
+		
+	static navigationOptions=({ navigation }) => ({
+		//title: `Login as ${navigation.state.params.user}`,
+		title:'Register',
+		headerStyle:{ 
+			backgroundColor: '#2ecc71',
+			justifyContent: 'center',
+		},	
+		headerTitleStyle:{ 
+			fontSize: 25,
+			fontWeight: 'bold',
+			textAlign: 'center',
+			alignSelf:'center',
+			color:'#ecf0f1'
+		},		
+	});	
+	
+	/*constructor(props){
 		super(props)
 		
 		this.state = {
@@ -44,7 +78,8 @@ class RegisterScreen extends React.Component{
 		const{ TextInputPassword } = this.state;
 		const{ TextInputPassword1 } = this.state;
 		
-		fetch('https://github.com/ravendell/PayrollApp/blob/master/php/submit_register.php', {
+		fetch(myUrl, {
+			   
 			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
@@ -56,28 +91,14 @@ class RegisterScreen extends React.Component{
 				password_: TextInputPassword,
 				password1_: TextInputPassword1
 			})
-		}).then((response) => response.text())
+		}).then((response) => console.text())
 			.then((responseJson) => {
 				Alert.alert(responseJson);		
 			}).catch((error) => {
 				console.error(error);	
 			});
-	}
-	static navigationOptions=({ navigation }) => ({
-		//title: `Login as ${navigation.state.params.user}`,
-		title:'Register',
-		headerStyle:{ 
-			backgroundColor: '#2ecc71',
-			justifyContent: 'center',
-		},	
-		headerTitleStyle:{ 
-			fontSize: 25,
-			fontWeight: 'bold',
-			textAlign: 'center',
-			alignSelf:'center',
-			color:'#ecf0f1'
-		},		
-	});	
+	}*/
+	
 	render(){
 		const { navigate } = this.props.navigation;
 		return(
