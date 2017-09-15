@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
 	AppRegistry,
 	Text,
@@ -12,40 +12,51 @@ import {
 	Alert,
 	StatusBar,
 } from 'react-native';
+import { Container, Content, List, ListItem } from "native-base";
+import { DrawerNavigator } from "react-navigation";
+import LoginScreen from "../app/logins";
+import RegisterScreen from "../app/register";
+import MainMenuScreen from "../app/mainmenu";
+import {
+	StackNavigator
+} from 'react-navigation'
 
-class HomeScreen extends React.Component {
-	static navigationOptions={
-		title: 'Welcome',
+
+class HomeScreen extends Component {
+	static navigationOptions=({ navigation }) => ({
+		//title: `Login as ${navigation.state.params.user}`,
+		title:'Welcome',
 		headerStyle:{ 
-			backgroundColor: '#2980b9',
+			backgroundColor: '#2ecc71',
 			justifyContent: 'center',
-		},
+		},	
 		headerTitleStyle:{ 
 			fontSize: 25,
 			fontWeight: 'bold',
 			textAlign: 'center',
 			alignSelf:'center',
 			color:'#ecf0f1'
-		},
-	};
+		},		
+	});
+	
 	render(){
-		const { navigate } = this.props.navigation;
-		return(
+		const { navigate }=this.props.navigation;
+			return (
 			<View style={styles.container}>
 				<View style={styles.imagecontainer}>
 					<Image
 						style={styles.logo}
-						source ={require('../src/Image/bakery.png')}
+						source ={require('../src/Image/binhi-logo.jpg')}
 					/>			
 					<Text style={styles.subtitle}>Welcome to our Mobile Payrol System</Text>
 				</View>
 				<View style={styles.buttoncontainer}>
 					<TouchableOpacity style={styles.buttonlogin}
-						onPress={()=> this.props.navigation.navigate('Login', { user: 'Lucy'})}>
+						onPress={()=> navigate('Login', { user: 'Lucy'})}>
 						<Text style={styles.buttontext}>Login</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.buttonregister}
-						onPress={()=> this.props.navigation.navigate('Register', { user: 'Lucy'})}>
+						onPress={()=> navigate('Register', { user: 'Lucy'})}>
 						<Text style={styles.buttontext}>Register</Text>
 					</TouchableOpacity>
 				</View>
@@ -53,10 +64,17 @@ class HomeScreen extends React.Component {
 		);
 	}	
 }
+const SimpleApp = StackNavigator({
+	Home:  { screen: HomeScreen },
+	Login: { screen: LoginScreen },
+	Register: { screen: RegisterScreen },
+	MainMenu: { screen: MainMenuScreen },
+});
+
 const styles=StyleSheet.create({
 	container:{
 		flex: 1,
-		backgroundColor: '#3498db',
+		backgroundColor: '#f1c40f',
 
 	},
 	subtitle:{
@@ -106,7 +124,7 @@ const styles=StyleSheet.create({
 		justifyContent: 'center',	
 	},
 	logo:{
-		width: 150,
+		width: 350,
 		height: 150,
 	},
 	logoregister:{
@@ -127,3 +145,4 @@ const styles=StyleSheet.create({
 	  },
 });
 export default HomeScreen;
+AppRegistry.registerComponent('PayrollApp', () => SimpleApp);
